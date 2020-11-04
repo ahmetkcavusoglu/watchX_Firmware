@@ -77,12 +77,16 @@ const unsigned char PROGMEM gamepad [] = {
 };
 
 void setup(void) {
+
+// ----------------------------------- SPLASH SCREEN START -----------------------------------
+  // watchX Logo
   Serial.begin(9600);
   display.begin(SSD1306_SWITCHCAPVCC);
   display.display();
   delay(4000);
+  display.clearDisplay();
 
-  display.clearDisplay();  
+  // Hello text
   display.setTextSize(2);
   display.setTextColor(WHITE);
   for (int i=32; i<=35; i++)
@@ -93,16 +97,19 @@ void setup(void) {
   delay(1000);
   }
   display.clearDisplay();
- display.setTextSize(1);
+
+  // "I'm your watchX" text with animation will be here !
+  display.setTextSize(1);
   display.setCursor(20, 15);
   display.print(F("I'm your"));
   display.setCursor(30, 35);
   display.print(F("watchX"));
   display.drawBitmap(80,5,watch,48,48,1);
   display.display();
-  delay(5000);
+  delay(1000);
   display.clearDisplay();
-  
+
+  // "Complete the setup" text
   display.setTextSize(1);
   display.setCursor(0, 15);
   display.print(F("There are a few steps"));
@@ -111,31 +118,29 @@ void setup(void) {
   display.display();
   delay(1000);
   display.clearDisplay();
-  
-  display.setCursor(0, 20);
-  display.print(F("Boy or Girl?"));
-  display.drawBitmap(100,10,boy,32,32,1);
-  display.drawBitmap(70,10,girl,32,32,1);
-  display.display();
-  delay(5000);
-  display.clearDisplay();
-  
-  display.setCursor(0, 20);
-  display.print(F("MPU6050 GAME"));
-  display.drawBitmap(50,25,gamepad,32,32,1);
-  display.display();
-  delay(5000);
-  display.clearDisplay();
 
-  // Load things from state
-  display.dim(state.dim);
+// ----------------------------------- SPLASH SCREEN FINISH ----------------------------------- 
 
-  state.update();
-  switchMenu(MENU_CLOCK);
+//  display.setCursor(0, 20);
+//  display.print(F("Boy or Girl?"));
+//  display.drawBitmap(100,10,boy,32,32,1);
+//  display.drawBitmap(70,10,girl,32,32,1);
+//  display.display();
+//  delay(3000);
+//  
+//  display.clearDisplay();
+//  display.setCursor(0, 20);
+//  display.print(F("MPU6050 GAME"));
+//  display.drawBitmap(50,25,gamepad,32,32,1);
+//  display.display();
+//  delay(3000);
+//  display.clearDisplay();
+
+
 }
 
 void loop() {
-
+  
   bool draw = false;
 
   updateMenuSelection();
