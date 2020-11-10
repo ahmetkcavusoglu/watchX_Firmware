@@ -21,20 +21,33 @@ Menu_selection nextMenu;
 // because it was taking up way to much RAM.
 // So here I do manual virtual methods...
 bool Menu::update() {
-  switch(type) {
+  switch (type) {
     case MENU_CLOCK:
       return ((ClockfaceMenu*)this)->update();
   }
 }
 
 void Menu::draw(Adafruit_GFX* display) const {
-  switch(type) {
+  switch (type) {
     case MENU_CLOCK:
       ((ClockfaceMenu*)this)->draw(display);
       return;
   }
 }
 
+void Menu::button1() {
+  switch(type) {
+    case MENU_CLOCK:
+      return ((ClockfaceMenu*)this)->button1();
+  }
+}
+
+void Menu::button2() {
+  switch(type) {
+    case MENU_CLOCK:
+      return ((ClockfaceMenu*)this)->button2();
+  }
+}
 // Function called to indicate that we want to change the menu
 // It does not actually change it now, we do that later so that
 // we dont delete the class that is calling this function from
@@ -50,16 +63,18 @@ void updateMenuSelection() {
   // Okay we need to change. delete the old one.
   if (menu) {
     // If the menu needs a destructor, you need to do this.
-    if (menu->getType() == MENU_CLOCK) {
+    
+      if (menu->getType() == MENU_CLOCK) {
       delete (ClockfaceMenu*)menu;
-    } else {
+      } else {
       delete menu;
-    }
+      }
+    delete(menu);
     menu = NULL;
   }
 
   // Make the new one.
-  switch(nextMenu) {
+  switch (nextMenu) {
     case MENU_CLOCK:
       menu = new ClockfaceMenu();
       break;
