@@ -10,15 +10,18 @@ enum Menu_selection {
 };
 
 class Menu {
-public:
-  Menu(Menu_selection t) : type(t) {}
-  bool update();
-  void draw(Adafruit_GFX* display) const;
-
-  Menu_selection getType() const { return type; }
-protected:
-  Menu_selection type;
-  void drawLayout(Adafruit_GFX* display, const __FlashStringHelper* title) const;
+  public:
+    Menu(Menu_selection t) : type(t) {}
+    bool update();
+    void draw(Adafruit_GFX* display) const;
+    void button1();
+    void button2();
+    Menu_selection getType() const {
+      return type;
+    }
+  protected:
+    Menu_selection type;
+    void drawLayout(Adafruit_GFX* display, const __FlashStringHelper* title) const;
 };
 
 // Change the current menu
