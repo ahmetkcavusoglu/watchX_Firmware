@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "State.h"
 #include "Clockface_Pacman.h"
+#include "Clockface_Digital.h"
 
 ClockfaceMenu::ClockfaceMenu()
 : Menu(MENU_CLOCK)
@@ -18,7 +19,7 @@ ClockfaceMenu::ClockfaceMenu()
 }
 
 ClockfaceMenu::~ClockfaceMenu() {
-  delete face;
+  delete(face);
 }
 
 bool ClockfaceMenu::update() {
@@ -32,15 +33,25 @@ void ClockfaceMenu::draw(Adafruit_GFX* display) const {
   face->draw(display);
 }
 
+void ClockfaceMenu::button1() {
+  do {
+  faceType = (faceType + 1) % FACE_MAX;
+  } while (!(state.enabled_faces & _BV(faceType)));
+  changeMenu();
+}
+
 void ClockfaceMenu::changeMenu() {
   // Switch object
   if (face) {
-    delete face;
+      delete(face);
     face = NULL;
   }
   switch(faceType) {
   case FACE_PACMAN:
     face = new ClockfacePacman();
+    break;
+      case FACE_DIGITAL:
+    face = new ClockfaceDigital();
     break;
 
   }
