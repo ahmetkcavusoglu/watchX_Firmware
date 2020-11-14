@@ -16,6 +16,7 @@ class Menu {
     void draw(Adafruit_GFX* display) const;
     void button1();
     void button2();
+    void button3();
     Menu_selection getType() const {
       return type;
     }
