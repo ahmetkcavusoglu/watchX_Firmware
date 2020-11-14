@@ -48,6 +48,13 @@ void Menu::button2() {
       return ((ClockfaceMenu*)this)->button2();
   }
 }
+
+void Menu::button3() {
+  switch(type) {
+    case MENU_CLOCK:
+      return ((ClockfaceMenu*)this)->button2();
+  }
+}
 // Function called to indicate that we want to change the menu
 // It does not actually change it now, we do that later so that
 // we dont delete the class that is calling this function from
