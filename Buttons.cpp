@@ -40,4 +40,3 @@ bool Button::update() {
 bool Button::read() const {
   return state.stable;
 }
-
