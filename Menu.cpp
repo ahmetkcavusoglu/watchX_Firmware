@@ -3,6 +3,7 @@
 #include "Menu.h"
 #include "Menu_Clockface.h"
 #include "State.h"
+#include "Buttons.h"
 
 extern Menu* menu;
 
@@ -52,7 +53,7 @@ void Menu::button2() {
 void Menu::button3() {
   switch(type) {
     case MENU_CLOCK:
-      return ((ClockfaceMenu*)this)->button2();
+      return ((ClockfaceMenu*)this)->button3();
   }
 }
 // Function called to indicate that we want to change the menu
