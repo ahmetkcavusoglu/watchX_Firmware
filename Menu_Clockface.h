@@ -7,8 +7,14 @@
 
 
 enum FACE {
+  
+  FACE_LONG,
+  FACE_FIRSTSCREEN,
+  FACE_HELLO,
+  FACE_BUTTON,
+  FACE_GYRO,
   FACE_PACMAN,
-  FACE_DIGITAL,
+
   FACE_MAX
 };
 
@@ -19,6 +25,8 @@ class ClockfaceMenu : public Menu {
     bool update();
     void draw(Adafruit_GFX* display) const;
     void button1();
+    void button2();
+    void button3();
   private:
     void changeMenu();
     Clockface* face;
