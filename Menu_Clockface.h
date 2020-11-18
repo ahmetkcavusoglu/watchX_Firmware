@@ -2,35 +2,32 @@
 #define MENU_CLOCKFACE_H
 
 #include <Arduino.h>
+#include <RTClib.h>
 #include "Menu.h"
 #include "Clockface.h"
 
 
 enum FACE {
-  
-  FACE_LONG,
-  FACE_FIRSTSCREEN,
-  FACE_HELLO,
-  FACE_BUTTON,
   FACE_GYRO,
   FACE_PACMAN,
-
+  
   FACE_MAX
 };
 
 class ClockfaceMenu : public Menu {
-  public:
-    ClockfaceMenu();
-    ~ClockfaceMenu();
-    bool update();
-    void draw(Adafruit_GFX* display) const;
-    void button1();
-    void button2();
-    void button3();
-  private:
-    void changeMenu();
-    Clockface* face;
-    uint8_t faceType;
+public:
+  ClockfaceMenu();
+  ~ClockfaceMenu();
+
+  bool update();
+  void draw(Adafruit_GFX* display) const;
+  void button1();
+  void button2();
+  void button3();
+private:
+  void changeMenu();
+  Clockface* face;
+  uint8_t faceType;
 };
 
 #endif
