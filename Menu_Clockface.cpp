@@ -10,7 +10,7 @@
 
 ClockfaceMenu::ClockfaceMenu()
   : Menu(MENU_CLOCK)
-  , faceType(FACE_PACMAN)
+  , faceType(FACE_GYRO)
   , face(NULL)
 {
   faceType = state.current_face;
