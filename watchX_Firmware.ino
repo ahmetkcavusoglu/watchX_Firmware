@@ -93,7 +93,7 @@ void MPU() {
 
   while (i2cRead(0x75, i2cData, 1));
   if (i2cData[0] != 0x68) { // Read "WHO_AM_I" register
-    Serial.print(F("Error reading sensor"));
+//    Serial.print(F("Error reading sensor"));
     while (1);
   }
 
@@ -141,15 +141,13 @@ void setup(void) {
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
   display.setRotation(0);
+  tone(9,1000,100);
 
   // Setup buttons
   pinMode(NEXT_PIN, INPUT_PULLUP);
   pinMode(PREV_PIN, INPUT_PULLUP);
   pinMode(SELECT_PIN, INPUT_PULLUP);
-
-  // Load things from state
-  display.dim(state.dim);
-
+  
   state.update();
   switchMenu(MENU_SETTINGS_24H);
 
@@ -276,17 +274,17 @@ void setRandom() {
 }
 
 void drawIMUbasic() {
-  int a = (sec - (millis() - start_time) / 1000.0);
+  int a = (sec - (millis() - state.now.second()) / 1000.0);
   display.drawRect(66, 0, 62, 64, WHITE);
   display.drawCircle(targetX - 1, targetY - 1, 2, WHITE);
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  display.print("pitch: ");
+  display.print("p: ");
   display.setCursor(0, 10);
   display.print(pitch);
   display.setCursor(0, 20);
-  display.print("roll: ");
+  display.print("r: ");
   display.setCursor(0, 30);
   display.print(roll);
   display.setCursor(0, 40);
@@ -318,10 +316,10 @@ void drawIMUbasic() {
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(20, 22);
-    display.print("Your score: ");
+    display.print("Score:");
     display.print(success_counter);
     display.setCursor(20, 42);
-    display.print("Press Any Button");
+    display.print("Press Button");
 
   }
 }
