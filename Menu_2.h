@@ -1,5 +1,5 @@
-#ifndef MENU_SETTINGS_24_H
-#define MENU_SETTINGS_24_H
+#ifndef MENU_2_H
+#define MENU_2_H
 
 #include <Arduino.h>
 #include "Menu.h"
@@ -12,6 +12,10 @@ public:
   void button2();
   void button3();
   void draw(Adafruit_GFX* display) const;
+  void update(uint8_t a, uint8_t b);
+  private:
+
+  uint8_t dots_x, blinky_x, die_timer;
 };
 
 #endif
