@@ -5,7 +5,10 @@
 #include <Adafruit_GFX.h>
 
 enum Menu_selection {
+  MENU_SETTINGS_24H,
   MENU_CLOCK,
+  MENU_START,
+  MENU_HELLO,
   MENU_MAX
 };
 
@@ -17,12 +20,13 @@ class Menu {
     void button1();
     void button2();
     void button3();
+
     Menu_selection getType() const {
       return type;
     }
   protected:
     Menu_selection type;
-    void drawLayout(Adafruit_GFX* display, const __FlashStringHelper* title) const;
+
 };
 
 // Change the current menu
