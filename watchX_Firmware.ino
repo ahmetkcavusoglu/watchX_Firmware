@@ -1,17 +1,22 @@
 #include <SPI.h>
 #include <Wire.h>
+#include <EEPROM.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include "Buttons.h"
 #include "Menu.h"
+#include "Menu_1.h"
+#include "Menu_2.h"
+#include "Menu_PressStart.h"
+#include "Menu_5.h"
+#include "Menu_3.h"
 #include "Menu_Clockface.h"
 #include "State.h"
-#include "Clockface.h"
-#include "Clockface_Pacman.h"
 #include "Kalman.h"
-#include "Buttons.h"
 
-#define LEDL 13
-#define LEDR 6
+#define NEXT_PIN   10
+#define PREV_PIN 11
+#define SELECT_PIN 8
 
 #define OLED_DC     A3
 #define OLED_CS     A5
@@ -19,14 +24,27 @@
 #define WIDTH      128
 #define HEIGHT     64
 
-#define BUTTON_1   8
-#define BUTTON_2  10
-#define BUTTON_3  11
-Button btn_1(BUTTON_1);
-Button btn_2(BUTTON_2);
-Button btn_3(BUTTON_3);
-
+Button btnNext(NEXT_PIN);
+Button btnSelect(SELECT_PIN);
+Button btnPrev (PREV_PIN);
 Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
+
+#define SSD1306_LCDHEIGHT 64
+
+#if (SSD1306_LCDHEIGHT != 64)
+#error("Height incorrect, please fix Adafruit_SSD1306.h!");
+#endif
+
+
+void buttonNextPressed() {
+  btnNext.interrupt();
+}
+void buttonPrevPressed() {
+  btnPrev.interrupt();
+}
+void buttonSelectPressed() {
+  btnSelect.interrupt();
+}
 
 #define RESTRICT_PITCH // Comment out to restrict roll to Â±90deg instead - please read: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
 
@@ -59,18 +77,6 @@ uint8_t i2cData[14]; // Buffer for I2C data
 
 State state;
 Menu* menu = NULL;
-
-void button1Pressed() {
-  btn_1.interrupt();
-}
-void button2Pressed() {
-  btn_2.interrupt();
-}
-void button3Pressed() {
-  btn_3.interrupt();
-}
-
-
 
 void MPU() {
 
@@ -121,7 +127,7 @@ void MPU() {
   start_time = millis();
 }
 void GyroGame(void) {
-  
+
 
   getIMU();
 
@@ -129,49 +135,58 @@ void GyroGame(void) {
 }
 
 void setup(void) {
-
-  pinMode(LEDL, OUTPUT); // sets the digital pin as output
-  pinMode(LEDR, OUTPUT); // sets the digital pin as output
-  pinMode(BUTTON_1, INPUT_PULLUP);
-  pinMode(BUTTON_2, INPUT_PULLUP);
-  pinMode(BUTTON_3, INPUT_PULLUP);
-
   Serial.begin(9600);
+  randomSeed(analogRead(A3));
+  Wire.begin();
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
   display.setRotation(0);
-  tone(9, 1000, 300);
 
-  randomSeed(analogRead(0));
+  // Setup buttons
+  pinMode(NEXT_PIN, INPUT_PULLUP);
+  pinMode(PREV_PIN, INPUT_PULLUP);
+  pinMode(SELECT_PIN, INPUT_PULLUP);
+
+  // Load things from state
+  display.dim(state.dim);
+
+  state.update();
+  switchMenu(MENU_SETTINGS_24H);
+
   setRandom();
   MPU();
 }
 
 void loop() {
 
+  // As an optimisation, we only draw the display
+  // when we really need to. Drawing the display
+  // every time is wasteful if nothing has changed.
   bool draw = false;
-  #ifdef DEBUG_STATS
+#ifdef DEBUG_STATS
   unsigned long timer = millis();
 #endif
+
   // Buttons
-  if (btn_1.update() && btn_1.read()) {
+  if (btnNext.update() && btnNext.read()) {
     menu->button1();
     draw = true;
   }
-//    if (btn_2.update() && btn_2.read()) {
-//    menu->button2();
-//    draw = true;
-//  }
-//    if (btn_3.update() && btn_3.read()) {
-//    menu->button3();
-//    draw = true;
-//  }
+  if (btnPrev.update() && btnPrev.read()) {
+    menu->button3();
+    draw = true;
+  }
+  if (btnSelect.update() && btnSelect.read()) {
+    menu->button2();
+    draw = true;
+  }
 
+  // Switch menu if indicated.
   updateMenuSelection();
 
   // Update
   state.update();
-  if (menu->update()) {
+  if(menu->update()) {
     draw = true;
   }
 
@@ -183,6 +198,7 @@ void loop() {
   }
 
 }
+
 void getIMU() {
   /* Update all the values */
   while (i2cRead(0x3B, i2cData, 14));
@@ -262,15 +278,15 @@ void setRandom() {
 void drawIMUbasic() {
   int a = (sec - (millis() - start_time) / 1000.0);
   display.drawRect(66, 0, 62, 64, WHITE);
-  display.drawRect(targetX - 2, targetY - 2, 6, 6, WHITE);
+  display.drawCircle(targetX - 1, targetY - 1, 2, WHITE);
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  display.print("p: ");
+  display.print("pitch: ");
   display.setCursor(0, 10);
   display.print(pitch);
   display.setCursor(0, 20);
-  display.print("r: ");
+  display.print("roll: ");
   display.setCursor(0, 30);
   display.print(roll);
   display.setCursor(0, 40);
@@ -280,8 +296,6 @@ void drawIMUbasic() {
   display.setCursor(0, 50);
   display.print(a);
   display.print("s");
-
-
 
   posX += roll / 10.0;
   posY -= pitch / 10.0;
@@ -307,17 +321,7 @@ void drawIMUbasic() {
     display.print("Your score: ");
     display.print(success_counter);
     display.setCursor(20, 42);
-    display.print("Press BUTTON 1");
+    display.print("Press Any Button");
 
   }
-
-
 }
-
-#ifdef DEBUG_STATS
-int freeRam () {
-  extern int __heap_start, *__brkval;
-  int v;
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
-}
-#endif
