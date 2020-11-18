@@ -50,20 +50,20 @@ const unsigned char PROGMEM wxlogo_bmp [] = {
 
 
 SettingsTimeMenu::SettingsTimeMenu()
-: Menu(MENU_SETTINGS_TIME)
-, selection(0)
+  : Menu(MENU_START)
+
 {}
 
 bool SettingsTimeMenu::update() {
-//  return state.timeMinuteUpdated;
+  //  return state.timeMinuteUpdated;
 }
 
 void SettingsTimeMenu::button1() {
-switchMenu(MENU_HELLO);
+  switchMenu(MENU_HELLO);
 }
 
 void SettingsTimeMenu::button3() {
-switchMenu(MENU_HELLO);
+  switchMenu(MENU_HELLO);
 }
 
 void SettingsTimeMenu::button2() {
@@ -72,7 +72,7 @@ void SettingsTimeMenu::button2() {
 
 void SettingsTimeMenu::draw(Adafruit_GFX* display) const {
 
-   display->drawBitmap(0, 0, wxlogo_bmp, 128, 32, 1);
+  display->drawBitmap(0, 0, wxlogo_bmp, 128, 32, 1);
   display->setTextColor(WHITE);
   display->setTextSize(1);
   display->setCursor(30, 55);
