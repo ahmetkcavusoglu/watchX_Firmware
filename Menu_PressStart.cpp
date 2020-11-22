@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 #include "Menu_PressStart.h"
 #include "State.h"
 #include "Kalman.h"
@@ -10,8 +9,6 @@
 #define WHITE 1
 #define WIDTH 128
 #define HEIGHT 64
-
-extern Adafruit_SSD1306 display;
 
 const unsigned char PROGMEM wxlogo_bmp [] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -55,7 +52,6 @@ SettingsTimeMenu::SettingsTimeMenu()
 {}
 
 bool SettingsTimeMenu::update() {
-  //  return state.timeMinuteUpdated;
 }
 
 void SettingsTimeMenu::button1() {
@@ -69,12 +65,18 @@ void SettingsTimeMenu::button3() {
 void SettingsTimeMenu::button2() {
   switchMenu(MENU_HELLO);
 }
+int x_pos=13;
+
 
 void SettingsTimeMenu::draw(Adafruit_GFX* display) const {
 
   display->drawBitmap(0, 0, wxlogo_bmp, 128, 32, 1);
   display->setTextColor(WHITE);
   display->setTextSize(1);
-  display->setCursor(30, 55);
-  display->print(F("PRESS START!"));
+  display->setCursor(x_pos, 56);
+  display->print(F("PRESS ANY BUTTON!"));
+    x_pos += 1;
+  if (x_pos > 18) {
+    x_pos = 13;
+  }
 }
