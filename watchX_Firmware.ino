@@ -72,7 +72,7 @@ State state;
 Menu* menu = NULL;
 
 void MPU() {
-  Serial.begin(115200);
+//  Serial.begin(115200);
   Wire.begin();
   TWBR = ((F_CPU / 400000L) - 16) / 2; // Set I2C frequency to 400kHz
 
@@ -127,11 +127,11 @@ void GyroGame(void) {
 }
 
 void setup(void) {
-  randomSeed(analogRead(A3));
+//  randomSeed(analogRead(A3));
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
-  display.setRotation(0);
-  pinMode(9, OUTPUT);
+//  display.setRotation(0);
+//  pinMode(9, OUTPUT);
   tone(9, 1000, 300);
 
 
@@ -259,9 +259,12 @@ void setRandom() {
   targetX = random(68, 125);
   targetY = random(2, 61);
 }
+int S = 1600;
 
 void drawIMUbasic() {
-  int a = (sec - (millis() - state.now.second()) / 1000.0);
+  S--;
+  S--;
+  int a = S/100;
   display.drawRect(66, 0, 62, 64, WHITE);
   display.drawCircle(targetX - 1, targetY - 1, 3, WHITE);
   display.setTextSize(1);
