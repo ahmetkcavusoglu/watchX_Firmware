@@ -4,17 +4,17 @@
 #include <RTClib.h>
 
 /*
- * A global object holding state and settings.
- */
+   A global object holding state and settings.
+*/
 struct State {
   State();
 
   void update();
   DateTime now;
 
-// Settings
+//  // Settings
   uint8_t current_face;
-uint8_t enabled_faces;
+//  uint8_t enabled_faces;
 
 };
 
