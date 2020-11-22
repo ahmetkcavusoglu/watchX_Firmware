@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+
 #include "Clockface_Gyro.h"
 #include "State.h"
 
@@ -10,7 +10,9 @@
 #define HEIGHT 64
 
 void ClockfaceGyro::draw(Adafruit_GFX* display) const {
-
+  
+  MPU();
   GyroGame();
+   
 
 }
