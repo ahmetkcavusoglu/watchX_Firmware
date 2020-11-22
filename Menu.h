@@ -3,12 +3,23 @@
 
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
 enum Menu_selection {
-  MENU_SETTINGS_24H,
-  MENU_CLOCK,
+
+  MENU_AT,
+  MENU_5,
   MENU_START,
   MENU_HELLO,
+
+  MENU_SETTINGS_CLOCKFACE,
+
+  MENU_CLOCK,
+  MENU_PACMAN,
+  MENU_CANAVAR,
+
+
+
   MENU_MAX
 };
 
