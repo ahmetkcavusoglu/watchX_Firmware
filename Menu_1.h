@@ -1,3 +1,5 @@
+#ifndef MENU_SETTINGS_H
+#define MENU_SETTINGS_H
 #include <Arduino.h>
 #include "Menu.h"
 
@@ -8,8 +10,10 @@ public:
   void button1();
   void button2();
   void button3();
-  void draw(Adafruit_GFX* display) const;
+  void draw(Adafruit_SSD1306* display) const;
 
 protected:
 
 };
+
+#endif
