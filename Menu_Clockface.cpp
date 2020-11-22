@@ -36,41 +36,32 @@ void ClockfaceMenu::draw(Adafruit_GFX* display) const {
 }
 
 void ClockfaceMenu::button1() {
-  do {
-  faceType = (faceType + 1) % FACE_MAX;
-  } while (!(state.enabled_faces & _BV(faceType)));
-  changeMenu(); 
+  switchMenu(MENU_PACMAN);
 }
 
  void ClockfaceMenu::button2() {
-  do {
-    faceType = (faceType + 1) % FACE_MAX;
-    } while (!(state.enabled_faces & _BV(faceType)));
-    changeMenu(); 
+ switchMenu(MENU_PACMAN);
   }
   
   void ClockfaceMenu::button3() {
-  do {
-    faceType = (faceType + 1) % FACE_MAX;
-    } while (!(state.enabled_faces & _BV(faceType)));
-    changeMenu(); 
+ switchMenu(MENU_PACMAN);
   }
 
  
 
 void ClockfaceMenu::changeMenu() {
   // Switch object
-  if (face) {
-    delete face;
-    face = NULL;
-  }
+//  if (face) {
+//    delete face;
+//    face = NULL;
+//  }
   switch (faceType) {
     case FACE_GYRO:
       face = new ClockfaceGyro();
       break;
-    case FACE_PACMAN:
-      face = new ClockfacePacman();
-      break;
+//    case FACE_PACMAN:
+//      face = new ClockfacePacman();
+//      break;
 
   }
 
