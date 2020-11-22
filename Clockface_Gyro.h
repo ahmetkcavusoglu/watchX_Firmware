@@ -11,4 +11,5 @@ class ClockfaceGyro : public Clockface {
 };
 
 void GyroGame(void);
+void MPU(void);
 #endif
