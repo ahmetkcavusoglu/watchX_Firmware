@@ -1,5 +1,5 @@
-#ifndef MENU_SETTINGS_TIME_H
-#define MENU_SETTINGS_TIME_H
+#ifndef MENU_START_H
+#define MENU_START_H
 
 #include <Arduino.h>
 #include "Menu.h"
@@ -13,10 +13,8 @@ public:
   void button3();
   void draw(Adafruit_GFX* display) const;
 private:
-  uint8_t selection;
+
 };
-void GyroGame();
-void setRandom();
-void MPU();
+
 
 #endif
