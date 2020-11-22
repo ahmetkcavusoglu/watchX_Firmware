@@ -8,7 +8,6 @@
 #include "Menu_1.h"
 #include "Menu_2.h"
 #include "Menu_PressStart.h"
-#include "Menu_5.h"
 #include "Menu_3.h"
 #include "Menu_Clockface.h"
 #include "State.h"
@@ -23,17 +22,11 @@
 #define OLED_RESET  A4
 #define WIDTH      128
 #define HEIGHT     64
+Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
 
 Button btnNext(NEXT_PIN);
 Button btnSelect(SELECT_PIN);
 Button btnPrev (PREV_PIN);
-Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
-
-#define SSD1306_LCDHEIGHT 64
-
-#if (SSD1306_LCDHEIGHT != 64)
-#error("Height incorrect, please fix Adafruit_SSD1306.h!");
-#endif
 
 
 void buttonNextPressed() {
@@ -70,7 +63,7 @@ int targetY;
 int success_counter = 0;
 long start_time;
 boolean basic;
-int sec = 50;
+int sec = 40;
 
 uint32_t timer;
 uint8_t i2cData[14]; // Buffer for I2C data
@@ -79,7 +72,6 @@ State state;
 Menu* menu = NULL;
 
 void MPU() {
-
   Serial.begin(115200);
   Wire.begin();
   TWBR = ((F_CPU / 400000L) - 16) / 2; // Set I2C frequency to 400kHz
@@ -91,11 +83,11 @@ void MPU() {
   while (i2cWrite(0x19, i2cData, 4, false)); // Write to all four registers at once
   while (i2cWrite(0x6B, 0x01, true)); // PLL with X axis gyroscope reference and disable sleep mode
 
-  while (i2cRead(0x75, i2cData, 1));
-  if (i2cData[0] != 0x68) { // Read "WHO_AM_I" register
-//    Serial.print(F("Error reading sensor"));
-    while (1);
-  }
+//  while (i2cRead(0x75, i2cData, 1));
+//  if (i2cData[0] != 0x68) { // Read "WHO_AM_I" register
+//    //    Serial.print(F("Error reading sensor"));
+//    while (1);
+//  }
 
   //  delay(100); // Wait for sensor to stabilize
 
@@ -124,7 +116,7 @@ void MPU() {
   compAngleY = pitch;
 
   timer = micros();
-  start_time = millis();
+
 }
 void GyroGame(void) {
 
@@ -135,35 +127,30 @@ void GyroGame(void) {
 }
 
 void setup(void) {
-  Serial.begin(9600);
   randomSeed(analogRead(A3));
-  Wire.begin();
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
   display.setRotation(0);
-  tone(9,1000,100);
+  pinMode(9, OUTPUT);
+  tone(9, 1000, 300);
+
 
   // Setup buttons
   pinMode(NEXT_PIN, INPUT_PULLUP);
   pinMode(PREV_PIN, INPUT_PULLUP);
   pinMode(SELECT_PIN, INPUT_PULLUP);
+  pinMode(13, OUTPUT);
+  pinMode(6, OUTPUT);
   
-  state.update();
-  switchMenu(MENU_SETTINGS_24H);
 
+  switchMenu(MENU_AT);
   setRandom();
-  MPU();
+
 }
 
 void loop() {
-
-  // As an optimisation, we only draw the display
-  // when we really need to. Drawing the display
-  // every time is wasteful if nothing has changed.
+  
   bool draw = false;
-#ifdef DEBUG_STATS
-  unsigned long timer = millis();
-#endif
 
   // Buttons
   if (btnNext.update() && btnNext.read()) {
@@ -184,7 +171,7 @@ void loop() {
 
   // Update
   state.update();
-  if(menu->update()) {
+  if (menu->update()) {
     draw = true;
   }
 
@@ -208,7 +195,7 @@ void getIMU() {
   gyroY = (i2cData[10] << 8) | i2cData[11];
   gyroZ = (i2cData[12] << 8) | i2cData[13];
 
-  double dt = (double)(micros() - timer) / 1000000; // Calculate delta time
+  double dt = (double)(micros() - state.now.second()) / 1000000; // Calculate delta time
   timer = micros();
 
   // Source: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf eq. 25 and eq. 26
@@ -276,15 +263,15 @@ void setRandom() {
 void drawIMUbasic() {
   int a = (sec - (millis() - state.now.second()) / 1000.0);
   display.drawRect(66, 0, 62, 64, WHITE);
-  display.drawCircle(targetX - 1, targetY - 1, 2, WHITE);
+  display.drawCircle(targetX - 1, targetY - 1, 3, WHITE);
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  display.print("p: ");
+  display.print("pitch: ");
   display.setCursor(0, 10);
   display.print(pitch);
   display.setCursor(0, 20);
-  display.print("r: ");
+  display.print("roll: ");
   display.setCursor(0, 30);
   display.print(roll);
   display.setCursor(0, 40);
@@ -299,7 +286,7 @@ void drawIMUbasic() {
   posY -= pitch / 10.0;
   posX = constrain(posX, 67, 126);
   posY = constrain(posY, 1, 62);
-  display.fillCircle(posX, posY, 4, WHITE);
+  display.fillCircle(posX, posY, 2, WHITE);
 
   if (posX > (targetX - 2) && posX < (targetX + 2) && posY > (targetY - 2) && posY < (targetY + 2)) {
     success_counter++;
@@ -315,10 +302,10 @@ void drawIMUbasic() {
     display.clearDisplay();
     display.setTextSize(1);
     display.setTextColor(WHITE);
-    display.setCursor(20, 22);
+    display.setCursor(40, 15);
     display.print("Score:");
     display.print(success_counter);
-    display.setCursor(20, 42);
+    display.setCursor(30, 42);
     display.print("Press Button");
 
   }
