@@ -2,7 +2,7 @@
 #define CLOCKFACE_PACMAN_H
 
 #include <Adafruit_GFX.h>
-#include "Clockface.h"
+
 #include "Menu.h"
 #include "Menu_Clockface.h"
 #include "State.h"
@@ -82,16 +82,19 @@ const uint8_t PROGMEM blinky_bmp[28 * 2] = {
   B01101110, B01110110,
   B01000110, B01100010,
 };
-class ClockfacePacman : public Clockface {
-public:
-  ClockfacePacman();
-  void update(uint8_t hour, uint8_t minute);
-  void draw(Adafruit_GFX* display) const;
+class ClockfacePacman : public Menu {
+  public:
+    ClockfacePacman();
+    bool update();
+    void draw(Adafruit_GFX* display) const;
+    void button1();
+    void button2();
+    void button3();
 
-private:
+  private:
 
 
-  uint8_t dots_x, blinky_x, die_timer;
+    uint8_t dots_x, blinky_x;
 };
 
 #endif
