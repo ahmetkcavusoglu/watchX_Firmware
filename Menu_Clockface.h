@@ -9,7 +9,7 @@
 
 enum FACE {
   FACE_GYRO,
-  FACE_PACMAN,
+//  FACE_PACMAN,
   
   FACE_MAX
 };
