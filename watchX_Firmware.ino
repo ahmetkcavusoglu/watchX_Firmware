@@ -1,21 +1,14 @@
-#include <SPI.h>
 #include <Wire.h>
-#include <EEPROM.h>
-#include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "Buttons.h"
 #include "Menu.h"
-#include "Menu_1.h"
-#include "Menu_2.h"
-#include "Menu_PressStart.h"
-#include "Menu_3.h"
-#include "Menu_Clockface.h"
 #include "State.h"
 #include "Kalman.h"
+#include "I2C.h"
 
-#define NEXT_PIN   10
-#define PREV_PIN 11
-#define SELECT_PIN 8
+#define Button1   10
+#define Button2 11
+#define Button3 8
 
 #define OLED_DC     A3
 #define OLED_CS     A5
@@ -24,19 +17,18 @@
 #define HEIGHT     64
 Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
 
-Button btnNext(NEXT_PIN);
-Button btnSelect(SELECT_PIN);
-Button btnPrev (PREV_PIN);
+Button btn1(Button1);
+Button btn2 (Button2);
+Button btn3(Button3);
 
-
-void buttonNextPressed() {
-  btnNext.interrupt();
+void button1Pressed() {
+  btn1.interrupt();
 }
-void buttonPrevPressed() {
-  btnPrev.interrupt();
+void button2Pressed() {
+  btn2.interrupt();
 }
-void buttonSelectPressed() {
-  btnSelect.interrupt();
+void button3Pressed() {
+  btn3.interrupt();
 }
 
 #define RESTRICT_PITCH // Comment out to restrict roll to Â±90deg instead - please read: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
@@ -61,9 +53,7 @@ float posY = centerY;
 int targetX;
 int targetY;
 int success_counter = 0;
-long start_time;
 boolean basic;
-int sec = 40;
 
 uint32_t timer;
 uint8_t i2cData[14]; // Buffer for I2C data
@@ -72,7 +62,7 @@ State state;
 Menu* menu = NULL;
 
 void MPU() {
-//  Serial.begin(115200);
+
   Wire.begin();
   TWBR = ((F_CPU / 400000L) - 16) / 2; // Set I2C frequency to 400kHz
 
@@ -82,14 +72,6 @@ void MPU() {
   i2cData[3] = 0x00; // Set Accelerometer Full Scale Range to Â±2g
   while (i2cWrite(0x19, i2cData, 4, false)); // Write to all four registers at once
   while (i2cWrite(0x6B, 0x01, true)); // PLL with X axis gyroscope reference and disable sleep mode
-
-//  while (i2cRead(0x75, i2cData, 1));
-//  if (i2cData[0] != 0x68) { // Read "WHO_AM_I" register
-//    //    Serial.print(F("Error reading sensor"));
-//    while (1);
-//  }
-
-  //  delay(100); // Wait for sensor to stabilize
 
   /* Set kalman and gyro starting angle */
   while (i2cRead(0x3B, i2cData, 6));
@@ -120,48 +102,44 @@ void MPU() {
 }
 void GyroGame(void) {
 
-
   getIMU();
 
   drawIMUbasic();
 }
 
 void setup(void) {
-//  randomSeed(analogRead(A3));
+
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
-//  display.setRotation(0);
-//  pinMode(9, OUTPUT);
   tone(9, 1000, 300);
 
-
   // Setup buttons
-  pinMode(NEXT_PIN, INPUT_PULLUP);
-  pinMode(PREV_PIN, INPUT_PULLUP);
-  pinMode(SELECT_PIN, INPUT_PULLUP);
+  pinMode(Button1, INPUT_PULLUP);
+  pinMode(Button2, INPUT_PULLUP);
+  pinMode(Button3, INPUT_PULLUP);
   pinMode(13, OUTPUT);
   pinMode(6, OUTPUT);
-  
 
-  switchMenu(MENU_AT);
+
+  switchMenu(MENU_FREE);
   setRandom();
 
 }
 
 void loop() {
-  
+
   bool draw = false;
 
   // Buttons
-  if (btnNext.update() && btnNext.read()) {
+  if (btn1.update() && btn1.read()) {
     menu->button1();
     draw = true;
   }
-  if (btnPrev.update() && btnPrev.read()) {
+  if (btn2.update() && btn2.read()) {
     menu->button3();
     draw = true;
   }
-  if (btnSelect.update() && btnSelect.read()) {
+  if (btn3.update() && btn3.read()) {
     menu->button2();
     draw = true;
   }
@@ -264,7 +242,7 @@ int S = 1600;
 void drawIMUbasic() {
   S--;
   S--;
-  int a = S/100;
+  int a = S / 100;
   display.drawRect(66, 0, 62, 64, WHITE);
   display.drawCircle(targetX - 1, targetY - 1, 3, WHITE);
   display.setTextSize(1);
