@@ -1,9 +1,7 @@
-
 #include <Adafruit_GFX.h>
 #include "Menu.h"
-#include "Menu_Clockface.h"
 #include "State.h"
-#include "Clockface_Pacman.h"
+#include "Menu_Pacman.h"
 
 #define WHITE 1
 #define BLACK 0
@@ -16,28 +14,24 @@ ClockfacePacman::ClockfacePacman()
 : Menu(MENU_PACMAN)
   , blinky_x(0)
   , dots_x(0)
-//  , die_timer(0)
 {}
 
 bool ClockfacePacman::update() {
 //  if (state.now.second() >= 5) {
     blinky_x = map(state.now.second(), 5, 60, WIDTH / 2 + 16, 12);
     dots_x = (dots_x + 2) % DOTS_SPACE;
-//    die_timer = 0;
-//  } else {
-//    die_timer += 1;
-//  }
+
 }
 void ClockfacePacman::button1() {
-  switchMenu(MENU_CANAVAR);
+//  switchMenu(MENU_GYRO);
 }
 
 void ClockfacePacman::button3() {
-  switchMenu(MENU_CANAVAR);
+//  switchMenu(MENU_GYRO);
 }
 
 void ClockfacePacman::button2() {
-  switchMenu(MENU_CANAVAR);
+//  switchMenu(MENU_GYRO);
 }
 
 
