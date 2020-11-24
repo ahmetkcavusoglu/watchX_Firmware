@@ -1,12 +1,12 @@
-#ifndef MENU_5_H
-#define MENU_5_H
+#ifndef MENU_LONG_H
+#define MENU_LONG_H
 
 #include <Arduino.h>
 #include "Menu.h"
 
-class Menu5 : public Menu {
+class LongMenu : public Menu {
   public:
-    Menu5();
+    LongMenu();
     bool update();
     void button1();
     void button2();
