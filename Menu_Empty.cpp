@@ -10,9 +10,6 @@ EmptyMenu::EmptyMenu()
 
 {}
 
-EmptyMenu::~EmptyMenu() {
-}
-
 bool EmptyMenu::update() {
   return true;
 }
@@ -31,13 +28,4 @@ void EmptyMenu::button2() {
 
 void EmptyMenu::button3() {
   switchMenu(MENU_PACMAN);
-}
-
-void EmptyMenu::changeMenu() {
-  
-  switch (faceType) {
-    case FACE_GYRO:
-      break;
-  }
-
 }
