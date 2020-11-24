@@ -1,23 +1,22 @@
-#ifndef MENU_CLOCKFACE_H
-#define MENU_CLOCKFACE_H
+#ifndef MENU_EMPTY_H
+#define MENU_EMPTY_H
 
 #include <Arduino.h>
 #include <RTClib.h>
 #include "Menu.h"
-#include "Clockface.h"
 
 
 enum FACE {
   FACE_GYRO,
-//  FACE_PACMAN,
+
   
   FACE_MAX
 };
 
-class ClockfaceMenu : public Menu {
+class EmptyMenu : public Menu {
 public:
-  ClockfaceMenu();
-  ~ClockfaceMenu();
+  EmptyMenu();
+  ~EmptyMenu();
 
   bool update();
   void draw(Adafruit_GFX* display) const;
@@ -26,7 +25,6 @@ public:
   void button3();
 private:
   void changeMenu();
-  Clockface* face;
   uint8_t faceType;
 };
 
