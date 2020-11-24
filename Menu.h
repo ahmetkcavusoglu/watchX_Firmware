@@ -7,18 +7,14 @@
 
 enum Menu_selection {
 
-  MENU_AT,
-  MENU_5,
+  MENU_FREE,
+  MENU_LONG,
   MENU_START,
   MENU_HELLO,
-
-  MENU_SETTINGS_CLOCKFACE,
-
-  MENU_CLOCK,
+  MENU_LETS,
+  MENU_GYRO,
   MENU_PACMAN,
-  MENU_CANAVAR,
-
-
+  MENU_EMPTY,
 
   MENU_MAX
 };
