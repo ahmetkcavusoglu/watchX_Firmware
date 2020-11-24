@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
-#include "Menu_2.h"
+#include "Menu_Gyro.h"
 #include "State.h"
 
 // Some graphics constants
@@ -9,33 +9,31 @@
 #define WIDTH 128
 #define HEIGHT 64
 
-Settings24hMenu::Settings24hMenu()
-  : Menu(MENU_CANAVAR)
+GyroMenu::GyroMenu()
+  : Menu(MENU_GYRO)
 
 {}
 
-bool Settings24hMenu::update()  {
+bool GyroMenu::update()  {
 
 }
 
-void Settings24hMenu::button1() {
-
+void GyroMenu::button1() {
+  switchMenu(MENU_PACMAN);
 }
 
-void Settings24hMenu::button3() {
-
+void GyroMenu::button3() {
+  switchMenu(MENU_PACMAN);
 }
 
-void Settings24hMenu::button2() {
-
+void GyroMenu::button2() {
+  switchMenu(MENU_PACMAN);
 }
 
 
-void Settings24hMenu::draw(Adafruit_GFX* display) const {
+void GyroMenu::draw(Adafruit_GFX* display) const {
 
-  
-    while(1){/*empty*/}
+  MPU();
+  GyroGame();
 
-    }
-
-   
+}
