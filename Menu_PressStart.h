@@ -4,9 +4,9 @@
 #include <Arduino.h>
 #include "Menu.h"
 
-class SettingsTimeMenu : public Menu {
+class StartMenu : public Menu {
 public:
-  SettingsTimeMenu();
+  StartMenu();
   bool update();
   void button1();
   void button2();
