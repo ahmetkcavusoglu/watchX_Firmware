@@ -1,10 +1,9 @@
-#ifndef CLOCKFACE_PACMAN_H
-#define CLOCKFACE_PACMAN_H
+#ifndef MENU_PACMAN_H
+#define MENU_PACMAN_H
 
 #include <Adafruit_GFX.h>
 
 #include "Menu.h"
-#include "Menu_Clockface.h"
 #include "State.h"
 
 const uint8_t PROGMEM pacman_bmp[13 * 2 * 3] = {
