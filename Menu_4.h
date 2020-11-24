@@ -1,12 +1,12 @@
-#ifndef MENU_4_H
-#define MENU_4_H
+#ifndef MENU_LETS_H
+#define MENU_LETS_H
 
 #include <Arduino.h>
 #include "Menu.h"
 
-class SettingsClockfaceMenu : public Menu {
+class LetsMenu : public Menu {
   public:
-    SettingsClockfaceMenu();
+    LetsMenu();
     bool update();
     void button1();
     void button2();
