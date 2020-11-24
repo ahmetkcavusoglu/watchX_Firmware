@@ -2,8 +2,7 @@
 #include <Adafruit_GFX.h>
 #include "Menu_PressStart.h"
 #include "State.h"
-#include "Kalman.h"
-#include <Wire.h>
+
 // Some graphics constants
 #define BLACK 0
 #define WHITE 1
@@ -46,29 +45,29 @@ const unsigned char PROGMEM wxlogo_bmp [] = {
 };
 
 
-SettingsTimeMenu::SettingsTimeMenu()
+StartMenu::StartMenu()
   : Menu(MENU_START)
 
 {}
 
-bool SettingsTimeMenu::update() {
+bool StartMenu::update() {
 }
 
-void SettingsTimeMenu::button1() {
+void StartMenu::button1() {
   switchMenu(MENU_HELLO);
 }
 
-void SettingsTimeMenu::button3() {
+void StartMenu::button3() {
   switchMenu(MENU_HELLO);
 }
 
-void SettingsTimeMenu::button2() {
+void StartMenu::button2() {
   switchMenu(MENU_HELLO);
 }
 int x_pos=13;
 
 
-void SettingsTimeMenu::draw(Adafruit_GFX* display) const {
+void StartMenu::draw(Adafruit_GFX* display) const {
 
   display->drawBitmap(0, 0, wxlogo_bmp, 128, 32, 1);
   display->setTextColor(WHITE);
