@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
-#include "Menu_5.h"
+#include "Menu_Long.h"
 #include "State.h"
 
 
@@ -17,29 +17,29 @@ int currentState;     // the current reading from the input pin
 unsigned long pressedTime  = 0;
 unsigned long releasedTime = 0;
 
-Menu5::Menu5()
-  : Menu(MENU_5)
+LongMenu::LongMenu()
+  : Menu(MENU_LONG)
 
 
 {}
 
-bool Menu5::update() {
+bool LongMenu::update() {
 
 }
 
-void Menu5::button1() {
+void LongMenu::button1() {
   //  switchMenu(MENU_CLOCK);
 }
 
-void Menu5::button3() {
+void LongMenu::button3() {
   //  switchMenu(MENU_CLOCK);
 }
 
-void Menu5::button2() {
+void LongMenu::button2() {
   //  switchMenu(MENU_CLOCK);
 }
 
-void Menu5::draw(Adafruit_GFX* display) const {
+void LongMenu::draw(Adafruit_GFX* display) const {
   currentState = digitalRead(BTN_1_P);
 
   if (lastState == HIGH && currentState == LOW)       // button is pressed
