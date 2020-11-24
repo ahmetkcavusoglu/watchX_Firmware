@@ -148,7 +148,6 @@ void loop() {
   updateMenuSelection();
 
   // Update
-  state.update();
   if (menu->update()) {
     draw = true;
   }
