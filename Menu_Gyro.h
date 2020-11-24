@@ -1,12 +1,12 @@
-#ifndef MENU_CANAVAR_H
-#define MENU_CANAVAR_H
+#ifndef MENU_GYRO_H
+#define MENU_GYRO_H
 
 #include <Arduino.h>
 #include "Menu.h"
 
-class Settings24hMenu : public Menu {
+class GyroMenu : public Menu {
   public:
-    Settings24hMenu();
+    GyroMenu();
     bool update();
     void button1();
     void button2();
@@ -14,5 +14,8 @@ class Settings24hMenu : public Menu {
     void draw(Adafruit_GFX* display) const;
 
 };
+
+void GyroGame(void);
+void MPU(void);
 
 #endif
