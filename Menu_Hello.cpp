@@ -71,8 +71,6 @@ void HelloMenu::draw(Adafruit_SSD1306* display) const {
 
 
   display->drawBitmap(0, 0, emoji, 64, 64, 1);
-  display->setTextColor(WHITE);
-  display->setTextSize(1);
   display->setCursor(85, 0);
   display->print(F("Hello"));
   display->setCursor(75, 10);
@@ -94,8 +92,4 @@ void HelloMenu::draw(Adafruit_SSD1306* display) const {
   tone(9, 784, 16 * 0.9);
   delay(100);
   noTone(9);
-
-
-
-
 }
