@@ -7,9 +7,11 @@
 #include "Menu_Long.h"
 #include "Menu_Free.h"
 #include "Menu_Lets.h"
-#include "Menu_Empty.h"
+#include "Menu_USB.h"
 #include "State.h"
 #include "Menu_Pacman.h"
+#include "Menu_Stop.h"
+#include "Menu_Init.h"
 
 extern Menu* menu;
 
@@ -35,20 +37,24 @@ bool Menu::update() {
       return ((GyroMenu*)this)->update();
     case MENU_HELLO:
       return ((HelloMenu*)this)->update();
-    case MENU_EMPTY:
-      return ((EmptyMenu*)this)->update();
+    case MENU_USB:
+      return ((USBMenu*)this)->update();
     case MENU_FREE:
       return ((FreeMenu*)this)->update();
     case MENU_LETS:
       return ((LetsMenu*)this)->update();
     case MENU_PACMAN:
-      return ((ClockfacePacman*)this)->update();
+      return ((PacmanMenu*)this)->update();
     case MENU_LONG:
       return ((LongMenu*)this)->update();
+    case MENU_STOP:
+      return ((StopMenu*)this)->update();
+    case MENU_INIT:
+      return ((InitMenu*)this)->update();
   }
 }
 
-void Menu::draw(Adafruit_GFX* display) const {
+void Menu::draw(Adafruit_GFX* display)  {
   switch (type) {
     case MENU_START:
       ((StartMenu*)this)->draw(display);
@@ -59,23 +65,27 @@ void Menu::draw(Adafruit_GFX* display) const {
     case MENU_GYRO:
       ((GyroMenu*)this)->draw(display);
       return;
-
     case MENU_FREE:
       ((FreeMenu*)this)->draw(display);
       return;
-    case MENU_EMPTY:
-      ((EmptyMenu*)this)->draw(display);
+    case MENU_USB:
+      ((USBMenu*)this)->draw(display);
       return;
     case MENU_LETS:
       ((LetsMenu*)this)->draw(display);
       return;
     case MENU_PACMAN:
-      ((ClockfacePacman*)this)->draw(display);
+      ((PacmanMenu*)this)->draw(display);
       return;
     case MENU_LONG:
       ((LongMenu*)this)->draw(display);
       return;
-
+    case MENU_STOP:
+      ((StopMenu*)this)->draw(display);
+      return;
+    case MENU_INIT:
+      ((InitMenu*)this)->draw(display);
+      return;
   }
 }
 
@@ -87,16 +97,20 @@ void Menu::button1() {
       return ((GyroMenu*)this)->button1();
     case MENU_START:
       return ((StartMenu*)this)->button1();
-    case MENU_EMPTY:
-      return ((EmptyMenu*)this)->button1();
+    case MENU_USB:
+      return ((USBMenu*)this)->button1();
     case MENU_FREE:
       return ((FreeMenu*)this)->button1();
     case MENU_LETS:
       return ((LetsMenu*)this)->button1();
     case MENU_PACMAN:
-      return ((ClockfacePacman*)this)->button1();
+      return ((PacmanMenu*)this)->button1();
     case MENU_LONG:
       return ((LongMenu*)this)->button1();
+    case MENU_STOP:
+      return ((StopMenu*)this)->button1();
+    case MENU_INIT:
+      return ((InitMenu*)this)->button1();
   }
 }
 
@@ -108,16 +122,20 @@ void Menu::button3() {
       return ((GyroMenu*)this)->button3();
     case MENU_START:
       return ((StartMenu*)this)->button3();
-    case MENU_EMPTY:
-      return ((EmptyMenu*)this)->button3();
+    case MENU_USB:
+      return ((USBMenu*)this)->button3();
     case MENU_FREE:
       return ((FreeMenu*)this)->button3();
     case MENU_LETS:
       return ((LetsMenu*)this)->button3();
     case MENU_PACMAN:
-      return ((ClockfacePacman*)this)->button3();
+      return ((PacmanMenu*)this)->button3();
     case MENU_LONG:
       return ((LongMenu*)this)->button3();
+    case MENU_STOP:
+      return ((StopMenu*)this)->button3();
+    case MENU_INIT:
+      return ((InitMenu*)this)->button3();
   }
 }
 
@@ -129,16 +147,20 @@ void Menu::button2() {
       return ((GyroMenu*)this)->button2();
     case MENU_START:
       return ((StartMenu*)this)->button2();
-    case MENU_EMPTY:
-      return ((EmptyMenu*)this)->button2();
+    case MENU_USB:
+      return ((USBMenu*)this)->button2();
     case MENU_FREE:
       return ((FreeMenu*)this)->button2();
     case MENU_LETS:
       return ((LetsMenu*)this)->button2();
     case MENU_PACMAN:
-      return ((ClockfacePacman*)this)->button2();
+      return ((PacmanMenu*)this)->button2();
     case MENU_LONG:
       return ((LongMenu*)this)->button2();
+    case MENU_STOP:
+      return ((StopMenu*)this)->button2();
+    case MENU_INIT:
+      return ((InitMenu*)this)->button2();
   }
 }
 
@@ -151,17 +173,14 @@ void switchMenu(Menu_selection s) {
 }
 
 void updateMenuSelection() {
+
   if (nextMenu >= MENU_MAX) return;
   if (menu && menu->getType() == nextMenu) return;
 
   // Okay we need to change. delete the old one.
   if (menu) {
     // If the menu needs a destructor, you need to do this.
-    if (menu->getType() == MENU_EMPTY) {
-      delete (EmptyMenu*)menu;
-    } else {
-      delete menu;
-    }
+    
     menu = NULL;
   }
 
@@ -176,8 +195,8 @@ void updateMenuSelection() {
     case MENU_START:
       menu = new StartMenu();
       break;
-    case MENU_EMPTY:
-      menu = new EmptyMenu();
+    case MENU_USB:
+      menu = new USBMenu();
       break;
     case MENU_FREE:
       menu = new FreeMenu();
@@ -186,10 +205,16 @@ void updateMenuSelection() {
       menu = new LetsMenu();
       break;
     case MENU_PACMAN:
-      menu = new ClockfacePacman();
+      menu = new PacmanMenu();
       break;
-       case MENU_LONG:
+    case MENU_LONG:
       menu = new LongMenu();
+      break;
+    case MENU_STOP:
+      menu = new StopMenu();
+      break;
+    case MENU_INIT:
+      menu = new InitMenu();
       break;
   }
 }
