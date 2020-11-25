@@ -39,10 +39,8 @@ int targetY;
 int success_counter = 0;
 boolean basic;
 int S = 1600;
-uint32_t timer;
+int a;
 uint8_t i2cData[14]; // Buffer for I2C data
-
-
 
 void MPU() {
 
@@ -56,6 +54,7 @@ void MPU() {
   while (i2cWrite(0x19, i2cData, 4, false)); // Write to all four registers at once
   while (i2cWrite(0x6B, 0x01, true)); // PLL with X axis gyroscope reference and disable sleep mode
 
+  delay(6);
   /* Set kalman and gyro starting angle */
   while (i2cRead(0x3B, i2cData, 6));
   accX = (i2cData[0] << 8) | i2cData[1];
@@ -80,8 +79,6 @@ void MPU() {
   compAngleX = roll;
   compAngleY = pitch;
 
-  timer = micros();
-
 }
 
 void getIMU() {
@@ -96,7 +93,7 @@ void getIMU() {
   gyroZ = (i2cData[12] << 8) | i2cData[13];
 
   double dt = (double)(micros() - state.now.second()) / 1000000; // Calculate delta time
-  timer = micros();
+
 
   // Source: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf eq. 25 and eq. 26
   // atan2 outputs the value of -Ï€ to Ï€ (radians) - see http://en.wikipedia.org/wiki/Atan2
@@ -159,20 +156,19 @@ void setRandom() {
   targetX = random(68, 125);
   targetY = random(2, 61);
 }
+
 void drawIMUbasic() {
   S--;
   S--;
-  int a = S / 100;
+  a = S / 100;
   display.drawRect(66, 0, 62, 64, WHITE);
   display.drawCircle(targetX - 1, targetY - 1, 3, WHITE);
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  display.print("pitch: ");
+  display.print("pitch:");
   display.setCursor(0, 10);
   display.print(pitch);
   display.setCursor(0, 20);
-  display.print("roll: ");
+  display.print("roll:");
   display.setCursor(0, 30);
   display.print(roll);
   display.setCursor(0, 40);
@@ -201,17 +197,32 @@ void drawIMUbasic() {
   if (a <= 0) {
 
     display.clearDisplay();
-    display.setTextSize(1);
-    display.setTextColor(WHITE);
-    display.setCursor(40, 15);
+    display.setCursor(0, 5);
+    display.print("Re-play");
+    display.setCursor(103, 5);
+    display.print("Next");
+    display.setCursor(42, 55);
     display.print("Score:");
     display.print(success_counter);
-    display.setCursor(30, 42);
-    display.print("Press Button");
+    if (success_counter <= 4) {
+      display.setCursor(42, 30);
+      display.print("Average");
+    }
+    if (success_counter >= 5 && success_counter <= 9) {
+      display.setCursor(40, 30);
+      display.print("Good job");
+    }
+    if (success_counter >= 10) {
+      display.setCursor(38, 30);
+      display.print("Excellent!");
+    }
+
+
   }
 }
 
 void GyroGame(void) {
+
   getIMU();
 
   drawIMUbasic();
@@ -228,25 +239,24 @@ bool GyroMenu::update()  {
 }
 
 void GyroMenu::button1() {
+
   switchMenu(MENU_PACMAN);
 }
 
 void GyroMenu::button3() {
+
   switchMenu(MENU_PACMAN);
 }
 
 void GyroMenu::button2() {
-  switchMenu(MENU_PACMAN);
+  S = 1600;
+  success_counter = 0;
+  switchMenu(MENU_GYRO);
 }
 
-
-
-
-
 void GyroMenu::draw(Adafruit_GFX* display) {
-    MPU();
 
-
+  MPU();
   GyroGame();
-  
+
 }
