@@ -2,7 +2,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "Menu_Lets.h"
-#include "Menu_Empty.h"
+#include "Menu_USB.h"
 #include "State.h"
 #include "Menu_Pacman.h"
 
@@ -53,10 +53,12 @@ void LetsMenu::draw(Adafruit_GFX* display) const {
   if (xPos2 > 127) {
     xPos2 = 0;
   }
-  display->setTextColor(WHITE);
-  display->setTextSize(1);
-  display->setCursor(11, 10);
+  display->setCursor(15, 5);
   display->print(F("Let's play a game"));
-  display->setCursor(13, 56);
-  display->print(F("Press any button"));
+  display->setCursor(40, 15);
+  display->print(F("together"));
+  display->setCursor(15, 45);
+  display->print(F("press any button"));
+  display->setCursor(13, 55);
+  display->print(F("when you're ready"));
 }
