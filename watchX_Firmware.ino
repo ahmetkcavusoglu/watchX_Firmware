@@ -38,13 +38,14 @@ void setup(void) {
 
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
-  
+
   // Setup buttons
   pinMode(Button1, INPUT_PULLUP);
   pinMode(Button2, INPUT_PULLUP);
   pinMode(Button3, INPUT_PULLUP);
   pinMode(6, OUTPUT);
-  
+  pinMode(13, OUTPUT);
+
   setRandom();
   switchMenu(MENU_FREE);
 
