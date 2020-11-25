@@ -210,7 +210,7 @@ void drawIMUbasic() {
     }
     if (success_counter >= 5 && success_counter <= 9) {
       display.setCursor(40, 30);
-      display.print("Good job");
+      display.print("Good job!");
     }
     if (success_counter >= 10) {
       display.setCursor(38, 30);
