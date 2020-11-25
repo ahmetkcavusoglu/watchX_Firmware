@@ -1,21 +1,20 @@
-#ifndef MENU_EMPTY_H
-#define MENU_EMPTY_H
+#ifndef MENU_INIT_H
+#define MENU_INIT_H
 
 #include <Arduino.h>
 #include "Menu.h"
 
-
-
-class EmptyMenu : public Menu {
+class InitMenu : public Menu {
 public:
-  EmptyMenu();
-
+  InitMenu();
   bool update();
-  void draw(Adafruit_GFX* display) const;
   void button1();
   void button2();
   void button3();
+  void draw(Adafruit_GFX* display) const;
+private:
 
 };
+
 
 #endif
