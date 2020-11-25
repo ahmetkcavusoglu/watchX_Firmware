@@ -26,7 +26,7 @@ bool USBMenu::update() {
 
 void USBMenu::draw(Adafruit_GFX* display) const {
 
-  display->drawBitmap(0, 10, USB, 32, 32, 1);
+  display->drawBitmap(0, 16, USB, 32, 32, 1);
   display->setCursor(32, 5);
   display->print(F("Press any button"));
   display->setCursor(43, 20);
