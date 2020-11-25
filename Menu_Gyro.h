@@ -13,10 +13,11 @@ class GyroMenu : public Menu {
     void button3();
     void draw(Adafruit_GFX* display);
 
+
 };
 
 void GyroGame(void);
 void MPU(void);
-
 void setRandom();
+
 #endif
