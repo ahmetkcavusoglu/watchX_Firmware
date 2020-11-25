@@ -81,9 +81,9 @@ const uint8_t PROGMEM blinky_bmp[28 * 2] = {
   B01101110, B01110110,
   B01000110, B01100010,
 };
-class ClockfacePacman : public Menu {
+class PacmanMenu : public Menu {
   public:
-    ClockfacePacman();
+    PacmanMenu();
     bool update();
     void draw(Adafruit_GFX* display) const;
     void button1();
