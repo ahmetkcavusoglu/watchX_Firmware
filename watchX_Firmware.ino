@@ -34,22 +34,17 @@ void button3Pressed() {
   btn3.interrupt();
 }
 
-
-
-
 void setup(void) {
 
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
-  tone(9, 1000, 300);
-
+  
   // Setup buttons
   pinMode(Button1, INPUT_PULLUP);
   pinMode(Button2, INPUT_PULLUP);
   pinMode(Button3, INPUT_PULLUP);
-  pinMode(13, OUTPUT);
   pinMode(6, OUTPUT);
-
+  
   setRandom();
   switchMenu(MENU_FREE);
 
@@ -90,4 +85,3 @@ void loop() {
   }
 
 }
-
