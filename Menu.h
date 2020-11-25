@@ -9,12 +9,15 @@ enum Menu_selection {
 
   MENU_FREE,
   MENU_LONG,
+  MENU_INIT,
   MENU_START,
   MENU_HELLO,
   MENU_LETS,
   MENU_GYRO,
+  MENU_SCORE,
   MENU_PACMAN,
-  MENU_EMPTY,
+  MENU_USB,
+  MENU_STOP,
 
   MENU_MAX
 };
@@ -23,7 +26,7 @@ class Menu {
   public:
     Menu(Menu_selection t) : type(t) {}
     bool update();
-    void draw(Adafruit_GFX* display) const;
+    void draw(Adafruit_GFX* display);
     void button1();
     void button2();
     void button3();
@@ -33,6 +36,7 @@ class Menu {
     }
   protected:
     Menu_selection type;
+
 
 };
 
