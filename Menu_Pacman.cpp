@@ -10,43 +10,44 @@
 
 #define DOTS_SPACE 10
 
-ClockfacePacman::ClockfacePacman()
-: Menu(MENU_PACMAN)
+PacmanMenu::PacmanMenu()
+  : Menu(MENU_PACMAN)
   , blinky_x(0)
   , dots_x(0)
 {}
 
-bool ClockfacePacman::update() {
-//  if (state.now.second() >= 5) {
-    blinky_x = map(state.now.second(), 5, 60, WIDTH / 2 + 16, 12);
-    dots_x = (dots_x + 2) % DOTS_SPACE;
+bool PacmanMenu::update() {
+
+  blinky_x = map(state.now.second(), 5, 60, WIDTH / 2 + 16, 12);
+  dots_x = (dots_x + 2) % DOTS_SPACE;
 
 }
-void ClockfacePacman::button1() {
-//  switchMenu(MENU_GYRO);
+void PacmanMenu::button1() {
+  switchMenu(MENU_USB);
 }
 
-void ClockfacePacman::button3() {
-//  switchMenu(MENU_GYRO);
+void PacmanMenu::button3() {
+  switchMenu(MENU_USB);
 }
 
-void ClockfacePacman::button2() {
-//  switchMenu(MENU_GYRO);
+void PacmanMenu::button2() {
+  switchMenu(MENU_USB);
 }
 
 
-void ClockfacePacman::draw(Adafruit_GFX* display) const {
+void PacmanMenu::draw(Adafruit_GFX* display) const {
 
-  display->setTextColor(WHITE);
-  display->setTextSize(1);
-  display->setCursor(10, 0);
-  display->print(F("Now, press button"));
-  display->setCursor(15, 10);
-  display->print(F("and connect"));
-  display->setCursor(20, 20);
-  display->print(F("watchX to PC :)"));
+  display->setCursor(0, 0);
+  display->print(F("Now we will learn how"));
+  display->setCursor(8, 10);
+  display->print(F("to code the watchX"));
+  display->setCursor(15, 20);
+  display->print(F("press any button"));
+  display->setCursor(30, 30);
+  display->print(F("to continue"));
 
-//   Pacman!
+
+  //   Pacman!
   display->drawFastHLine(0, HEIGHT - 22, WIDTH, WHITE);
   display->drawFastHLine(0, HEIGHT - 3, WIDTH, WHITE);
 
@@ -61,4 +62,4 @@ void ClockfacePacman::draw(Adafruit_GFX* display) const {
   display->drawBitmap(WIDTH / 2, HEIGHT - 20, pacman_bmp + pac_frame, 16, 13, WHITE);
   display->drawBitmap(WIDTH / 2 - blinky_x, HEIGHT - 20, blinky_bmp + ghost_frame, 16, 14, WHITE);
 
-  }
+}
