@@ -10,8 +10,8 @@
 #define WIDTH 128
 #define HEIGHT 64
 
-const int BTN_1_P = 8; // the number of the pushbutton pin
-const int LONG_PRESS_TIME  = 2000; // 1000 milliseconds
+const int button = 8;
+const int press_time  = 2000;
 int lastState = LOW;  // the previous state from the input pin
 int currentState;     // the current reading from the input pin
 unsigned long pressedTime  = 0;
@@ -28,33 +28,17 @@ bool LongMenu::update() {
 }
 
 void LongMenu::button1() {
-  //  switchMenu(MENU_CLOCK);
+  //  switchMenu(MENU_START);
 }
 
 void LongMenu::button3() {
-  //  switchMenu(MENU_CLOCK);
+//  switchMenu(MENU_START);
 }
 
 void LongMenu::button2() {
-  //  switchMenu(MENU_CLOCK);
+  delay(2000);
+  switchMenu(MENU_INIT);
 }
 
 void LongMenu::draw(Adafruit_GFX* display) const {
-  currentState = digitalRead(BTN_1_P);
-
-  if (lastState == HIGH && currentState == LOW)       // button is pressed
-    pressedTime = millis();
-  else if (lastState == LOW && currentState == HIGH) { // button is released
-    releasedTime = millis();
-
-    long pressDuration = releasedTime - pressedTime;
-
-    if ( pressDuration > LONG_PRESS_TIME ) {
-      delay(100);
-      switchMenu(MENU_START);
-    }
-
-  }
-  lastState = currentState;
-
 }
